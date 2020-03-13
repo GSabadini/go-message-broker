@@ -45,12 +45,12 @@ func startRabbitMQ() {
 	var message = "Hello World RabbitMQ!"
 
 	if os.Args[2] == PRODUCER {
-		producer := rabbitmq.NewProducer(connection, channel, queue)
+		producer := rabbitmq.NewProducer(channel, queue.Name)
 		if err := producer.Publish(message); err != nil {
 			log.Fatalf("failed publish: %s", err)
 		}
 	} else if os.Args[2] == CONSUMER {
-		consumer := rabbitmq.NewConsumer(connection, channel, queue)
+		consumer := rabbitmq.NewConsumer(channel, queue.Name)
 		if err := consumer.Consume(); err != nil {
 			log.Fatalf("failed consume: %s", err)
 		}

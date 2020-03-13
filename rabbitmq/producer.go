@@ -8,19 +8,18 @@ import (
 )
 
 type Producer struct {
-	conn    *amqp.Connection
 	channel *amqp.Channel
-	queue   amqp.Queue
+	queueName   string
 }
 
-func NewProducer(conn *amqp.Connection, channel *amqp.Channel, queue amqp.Queue) Producer {
-	return Producer{conn: conn, channel: channel, queue: queue}
+func NewProducer(channel *amqp.Channel, queueName string) Producer {
+	return Producer{channel: channel, queueName: queueName}
 }
 
 func (p Producer) Publish(message string) error {
 	if err := p.channel.Publish(
 		"",
-		p.queue.Name,
+		p.queueName,
 		false,
 		false,
 		amqp.Publishing{

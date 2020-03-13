@@ -8,18 +8,17 @@ import (
 )
 
 type Consumer struct {
-	conn    *amqp.Connection
 	channel *amqp.Channel
-	queue   amqp.Queue
+	queueName   string
 }
 
-func NewConsumer(conn *amqp.Connection, channel *amqp.Channel, queue amqp.Queue) Consumer {
-	return Consumer{conn: conn, channel: channel, queue: queue}
+func NewConsumer(channel *amqp.Channel, queueName string) Consumer {
+	return Consumer{channel: channel, queueName: queueName}
 }
 
 func (c Consumer) Consume() error {
 	deliveries, err := c.channel.Consume(
-		c.queue.Name,
+		c.queueName,
 		"",
 		false,
 		false,

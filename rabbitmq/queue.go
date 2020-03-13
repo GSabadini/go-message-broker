@@ -12,7 +12,7 @@ func NewQueue(channel *amqp.Channel) Queue {
 
 func (q Queue) Create() (amqp.Queue, error) {
 	return q.channel.QueueDeclare(
-		"hello",
+		"go-message-broker",
 		false,
 		false,
 		false,
