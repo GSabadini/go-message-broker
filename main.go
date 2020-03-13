@@ -3,15 +3,18 @@ package main
 import (
 	"fmt"
 	"log"
+	"os"
 
+	"github.com/GSabadini/go-message-broker/kafka"
 	"github.com/GSabadini/go-message-broker/rabbitmq"
 )
 
 func main() {
-	rabbitMQ()
+	//startRabbitMQ()
+	startKafka()
 }
 
-func rabbitMQ() {
+func startRabbitMQ() {
 	connection, err := rabbitmq.OpenConnection()
 	if err != nil {
 		log.Fatalf("failed connection: %s", err)
@@ -39,10 +42,14 @@ func rabbitMQ() {
 	}
 }
 
-func kafka() {
-	fmt.Println("implement me")
+func startKafka() {
+	if os.Args[1] == "producer" {
+		kafka.Publish()
+	} else if os.Args[1] == "consumer" {
+		kafka.Consume()
+	}
 }
 
-func activeMQ() {
+func startActiveMQ() {
 	fmt.Println("implement me")
 }
