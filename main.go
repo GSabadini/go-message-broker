@@ -7,11 +7,22 @@ import (
 
 	"github.com/GSabadini/go-message-broker/kafka"
 	"github.com/GSabadini/go-message-broker/rabbitmq"
+	"github.com/Shopify/sarama"
+)
+
+const (
+	PRODUCER = "producer"
+	CONSUMER = "consumer"
+	RABBITMQ = "rabbitmq"
+	KAFKA = "kafka"
 )
 
 func main() {
-	//startRabbitMQ()
-	startKafka()
+	if os.Args[1] == RABBITMQ {
+		startRabbitMQ()
+	} else if os.Args[1] == KAFKA {
+		startKafka()
+	}
 }
 
 func startRabbitMQ() {
@@ -31,25 +42,42 @@ func startRabbitMQ() {
 		log.Fatalf("failed queue declare: %s", err)
 	}
 
-	producer := rabbitmq.NewProducer(connection, channel, queue)
-	if err := producer.Publish(); err != nil {
-		log.Fatalf("failed publish: %s", err)
-	}
+	var message = "Hello World RabbitMQ!"
 
-	consumer := rabbitmq.NewConsumer(connection, channel, queue)
-	if err := consumer.Consume(); err != nil {
-		log.Fatalf("failed consume: %s", err)
+	if os.Args[2] == PRODUCER {
+		producer := rabbitmq.NewProducer(connection, channel, queue)
+		if err := producer.Publish(message); err != nil {
+			log.Fatalf("failed publish: %s", err)
+		}
+	} else if os.Args[2] == CONSUMER {
+		consumer := rabbitmq.NewConsumer(connection, channel, queue)
+		if err := consumer.Consume(); err != nil {
+			log.Fatalf("failed consume: %s", err)
+		}
 	}
 }
 
 func startKafka() {
-	if os.Args[1] == "producer" {
-		kafka.Publish()
-	} else if os.Args[1] == "consumer" {
-		kafka.Consume()
+	var (
+		config  = sarama.NewConfig()
+		logger  = log.New(os.Stderr, "[sarama_logger]", log.LstdFlags)
+		groupID = "sarama_consumer"
+		topic   = "go-message-broker-topic"
+		brokers = []string{"localhost:9093"}
+		message = "Hello World Kafka!"
+	)
+
+	if os.Args[2] == PRODUCER {
+		kafka.NewProducer(config, logger, topic, brokers).Publish(message)
+	} else if os.Args[2] == CONSUMER {
+		kafka.NewConsumer(config, logger, topic, groupID, brokers).Consume()
 	}
 }
 
 func startActiveMQ() {
+	fmt.Println("implement me")
+}
+
+func startKinesisAWS() {
 	fmt.Println("implement me")
 }

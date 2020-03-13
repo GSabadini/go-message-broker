@@ -9,40 +9,43 @@ import (
 	"github.com/Shopify/sarama"
 )
 
-//type Consumer struct {
-//	conn kafka.Consumer
-//}
+type Consumer struct {
+	group   sarama.ConsumerGroup
+	topics  []string
+	groupID string
+}
 
-var (
-	//kafkaBrokers = []string{"localhost:9093"}
-	kafkaTopics     = []string{"sarama_topic"}
-	consumerGroupID = "sarama_consumer"
-)
-
-func Consume() {
-	// Init config, specify appropriate version
-	config := sarama.NewConfig()
+func NewConsumer(config *sarama.Config, logger *log.Logger, topic string, groupID string, brokers []string) *Consumer {
+	// Init config, specify appropriate versio
 	sarama.Logger = log.New(os.Stderr, "[sarama_logger]", log.LstdFlags)
-	config.Version = sarama.V2_1_0_0
+	sarama.Logger = logger
+	config.Version = sarama.V2_4_0_0
 
 	// Start with a client
-	client, err := sarama.NewClient(kafkaBrokers, config)
+	client, err := sarama.NewClient(brokers, config)
 	if err != nil {
 		panic(err)
 	}
-	defer func() { _ = client.Close() }()
 
 	// Start a new consumer group
-	group, err := sarama.NewConsumerGroupFromClient(consumerGroupID, client)
+	group, err := sarama.NewConsumerGroupFromClient(groupID, client)
 	if err != nil {
 		panic(err)
 	}
-	defer func() { _ = group.Close() }()
+
 	log.Println("Consumer up and running")
 
+	return &Consumer{
+		group:   group,
+		topics:  []string{topic},
+		groupID: groupID,
+	}
+}
+
+func (c Consumer) Consume() {
 	// Track errors
 	go func() {
-		for err := range group.Errors() {
+		for err := range c.group.Errors() {
 			fmt.Println("ERROR", err)
 		}
 	}()
@@ -52,9 +55,13 @@ func Consume() {
 	for {
 		handler := ConsumerGroupHandler{}
 
-		err := group.Consume(ctx, kafkaTopics, handler)
+		err := c.group.Consume(ctx, c.topics, handler)
 		if err != nil {
 			panic(err)
 		}
 	}
+}
+
+func (c Consumer) CloseConnection() {
+	c.group.Close()
 }

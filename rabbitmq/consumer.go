@@ -31,20 +31,17 @@ func (c Consumer) Consume() error {
 		return fmt.Errorf("queue consume: %s", err)
 	}
 
-	//var done = make(chan error)
-	//
-	//go handle(deliveries, done)
-
-	forever := make(chan bool)
+	done := make(chan bool)
 
 	go func() {
 		for d := range deliveries {
-			log.Printf("Received a message: %s", d.Body)
+			log.Printf("Consumer received a message: %s", d.Body)
 		}
 	}()
 
 	log.Printf(" [*] Waiting for messages. To exit press CTRL+C")
-	<-forever
+
+	<-done
 
 	return nil
 }

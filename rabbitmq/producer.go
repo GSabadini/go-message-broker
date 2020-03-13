@@ -17,9 +17,7 @@ func NewProducer(conn *amqp.Connection, channel *amqp.Channel, queue amqp.Queue)
 	return Producer{conn: conn, channel: channel, queue: queue}
 }
 
-func (p Producer) Publish() error {
-	body := "Hello World RabbitMQ!"
-
+func (p Producer) Publish(message string) error {
 	if err := p.channel.Publish(
 		"",
 		p.queue.Name,
@@ -28,12 +26,12 @@ func (p Producer) Publish() error {
 		amqp.Publishing{
 			Headers:     amqp.Table{},
 			ContentType: "text/plain",
-			Body:        []byte(body),
+			Body:        []byte(message),
 		}); err != nil {
 		return fmt.Errorf("failed to publish a message: %s", err)
 	}
 
-	log.Printf("Success publish %s", body)
+	log.Printf("New message publish:  %s", message)
 
 	return nil
 }

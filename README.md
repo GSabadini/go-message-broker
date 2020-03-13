@@ -10,11 +10,51 @@
 ## Message Brokers
 
   - [x] RabbitMQ
-  - [ ] Apache Kafka
+  - [x] Apache Kafka
   - [ ] Apache ActiveMQ
-  - [ ] Redis
   - [ ] AWS Kinesis
 
+## Test implements
+
+#### RabbitMQ
+
+- Run rabbitMQ
+```sh
+make up-rabbitmq
+```
+
+- Open [RabbitMQ](http://localhost:15672)
+```sh
+Username: guest
+Password: guest
+```
+
+- Publish message
+```sh
+make publish-rabbitmq
+```
+
+- Consume message
+```sh
+make consumer-rabbitmq
+```
+
+### Kafka
+
+- Run Kafka
+```sh
+make up-kafka
+```
+
+- Publish message
+```sh
+make publish-kafka
+```
+
+- Consume message
+```sh
+make consumer-kafka
+```
 
 ## Author
 
