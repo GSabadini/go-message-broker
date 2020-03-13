@@ -6,7 +6,7 @@
 
   - [x] RabbitMQ
   - [x] Apache Kafka
-  - [ ] SQS AWS
+  - [ ] Redis
   - [ ] Apache ActiveMQ
 
 ## Test implements
