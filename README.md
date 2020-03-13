@@ -1,9 +1,4 @@
 <h1 align="center">Welcome to Go Message Broker 👋</h1>
-<p>
-  <a href="#" target="_blank">
-    <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" />
-  </a>
-</p>
 
 > Example of implementing message brokers in golang
 
@@ -11,14 +6,14 @@
 
   - [x] RabbitMQ
   - [x] Apache Kafka
+  - [ ] SQS AWS
   - [ ] Apache ActiveMQ
-  - [ ] AWS Kinesis
 
 ## Test implements
 
 #### RabbitMQ
 
-- Run rabbitMQ
+- Run
 ```sh
 make up-rabbitmq
 ```
@@ -41,7 +36,7 @@ make consumer-rabbitmq
 
 ### Kafka
 
-- Run Kafka
+- Run
 ```sh
 make up-kafka
 ```

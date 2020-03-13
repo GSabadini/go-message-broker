@@ -78,6 +78,6 @@ func startActiveMQ() {
 	fmt.Println("implement me")
 }
 
-func startKinesisAWS() {
+func startSQSAWS() {
 	fmt.Println("implement me")
 }
