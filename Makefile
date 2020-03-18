@@ -40,3 +40,17 @@ publish-kafka:
 consumer-kafka:
 	go run main.go kafka consumer
 
+
+## ActiveMQ Artemis
+
+up-activemq:
+	docker-compose up -d activemq
+
+down-activemq:
+	docker-compose down -d activemq
+
+publish-activemq:
+	go run main.go activemq producer
+
+consumer-activemq:
+	go run main.go activemq consumer

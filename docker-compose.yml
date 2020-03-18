@@ -50,3 +50,13 @@ services:
       KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE
     restart: always
     container_name: kafka
+
+  activemq:
+    image: vromero/activemq-artemis:latest-alpine
+    container_name: activemq
+    environment:
+      ARTEMIS_USERNAME: user-amq
+      ARTEMIS_PASSWORD: password-amq
+    ports:
+      - 8161:8161
+      - 61616:61616

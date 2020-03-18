@@ -2,6 +2,7 @@ package kafka
 
 import (
 	"fmt"
+	"log"
 
 	"github.com/Shopify/sarama"
 )
@@ -21,11 +22,16 @@ func (ConsumerGroupHandler) Cleanup(_ sarama.ConsumerGroupSession) error {
 
 // ConsumeClaim must start a consumer loop of ConsumerGroupClaim's Messages(), here is supposed to be what you want to
 // do with the message. In this example the message will be logged with the topic name, partition and message value.
-func (h ConsumerGroupHandler) ConsumeClaim(sess sarama.ConsumerGroupSession, claim sarama.ConsumerGroupClaim) error {
+func (h ConsumerGroupHandler) ConsumeClaim(session sarama.ConsumerGroupSession, claim sarama.ConsumerGroupClaim) error {
 	for msg := range claim.Messages() {
-		fmt.Printf("Message topic:%q partition:%d offset:%d message: %v\n",
-			msg.Topic, msg.Partition, msg.Offset, string(msg.Value))
-		sess.MarkMessage(msg, "")
+		fmt.Printf(
+			"Message topic:%q partition:%d offset:%d message: %v\n",
+			msg.Topic, msg.Partition, msg.Offset, string(msg.Value),
+		)
+
+		session.MarkMessage(msg, "")
+
+		log.Printf(" [*] Waiting for messages. To exit press CTRL+C")
 	}
 
 	return nil

@@ -8,8 +8,8 @@ import (
 )
 
 type Producer struct {
-	channel *amqp.Channel
-	queueName   string
+	channel   *amqp.Channel
+	queueName string
 }
 
 func NewProducer(channel *amqp.Channel, queueName string) Producer {

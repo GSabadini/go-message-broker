@@ -6,8 +6,8 @@
 
   - [x] RabbitMQ
   - [x] Apache Kafka
+  - [x] Apache ActiveMQ
   - [ ] Redis
-  - [ ] Apache ActiveMQ
 
 ## Test implements
 
@@ -49,6 +49,23 @@ make publish-kafka
 - Consume message
 ```sh
 make consumer-kafka
+```
+
+### ActiveMQ
+
+- Run
+```sh
+make up-activemq
+```
+
+- Publish message
+```sh
+make publish-activemq
+```
+
+- Consume message
+```sh
+make consumer-activemq
 ```
 
 ## Author

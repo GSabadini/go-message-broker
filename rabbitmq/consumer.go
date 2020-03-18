@@ -8,8 +8,8 @@ import (
 )
 
 type Consumer struct {
-	channel *amqp.Channel
-	queueName   string
+	channel   *amqp.Channel
+	queueName string
 }
 
 func NewConsumer(channel *amqp.Channel, queueName string) Consumer {
@@ -34,7 +34,7 @@ func (c Consumer) Consume() error {
 
 	go func() {
 		for d := range deliveries {
-			log.Printf("Consumer received a message: %s", d.Body)
+			log.Printf("Consumer received a message: %s in queue: %s", d.Body, c.queueName)
 		}
 	}()
 
@@ -45,7 +45,7 @@ func (c Consumer) Consume() error {
 	return nil
 }
 
-func handle(deliveries <-chan amqp.Delivery, done chan error) {
+func handler(deliveries <-chan amqp.Delivery, done chan error) {
 	for d := range deliveries {
 		log.Printf(
 			"got %dB delivery: [%v] %q",
