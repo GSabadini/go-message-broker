@@ -55,8 +55,8 @@ services:
     image: vromero/activemq-artemis:latest-alpine
     container_name: activemq
     environment:
-      ARTEMIS_USERNAME: user-amq
-      ARTEMIS_PASSWORD: password-amq
+      ARTEMIS_USERNAME: guest
+      ARTEMIS_PASSWORD: guest
     ports:
       - 8161:8161
       - 61616:61616

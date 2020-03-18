@@ -18,20 +18,20 @@
 make up-rabbitmq
 ```
 
-- Open [RabbitMQ](http://localhost:15672)
+- Open interface web [RabbitMQ](http://localhost:15672)
 ```sh
 Username: guest
 Password: guest
 ```
 
-- Publish message
-```sh
-make publish-rabbitmq
-```
-
 - Consume message
 ```sh
 make consumer-rabbitmq
+```
+
+- Publish message
+```sh
+make publish-rabbitmq
 ```
 
 ### Kafka
@@ -41,14 +41,14 @@ make consumer-rabbitmq
 make up-kafka
 ```
 
-- Publish message
-```sh
-make publish-kafka
-```
-
 - Consume message
 ```sh
 make consumer-kafka
+```
+
+- Publish message
+```sh
+make publish-kafka
 ```
 
 ### ActiveMQ
@@ -58,14 +58,20 @@ make consumer-kafka
 make up-activemq
 ```
 
-- Publish message
+- Open interface web [ActiveMQ](http://localhost:8161/console/login)
 ```sh
-make publish-activemq
+Username: guest
+Password: guest
 ```
 
 - Consume message
 ```sh
 make consumer-activemq
+```
+
+- Publish message
+```sh
+make publish-activemq
 ```
 
 ## Author
